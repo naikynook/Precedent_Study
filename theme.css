@@ -104,6 +104,10 @@ header .center span {
   letter-spacing: 0.14em;
 }
 
+header .right {
+  position: relative;
+}
+
 header .right a {
   color: var(--text-primary);
   text-decoration: none;
@@ -116,6 +120,45 @@ header .right a {
 header .right a:hover {
   background-color: var(--accent-red);
   color: var(--text-primary);
+}
+
+.about-bubble {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  width: 280px;
+  padding: 14px 16px;
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+  background-color: rgba(20, 20, 20, 0.98);
+  border: 2px solid var(--accent-red);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.35);
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.about-bubble::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 18px;
+  width: 12px;
+  height: 12px;
+  background-color: rgba(20, 20, 20, 0.98);
+  border-top: 2px solid var(--accent-red);
+  border-left: 2px solid var(--accent-red);
+  transform: rotate(45deg);
+}
+
+.about-bubble.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 main {

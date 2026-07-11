@@ -10,27 +10,53 @@ function showMessage() {
 
 // This function runs when the page is ready
 document.addEventListener('DOMContentLoaded', function() {
-    // DOMContentLoaded means all the HTML has been loaded and parsed
-    // This is important because we need to find HTML elements with JavaScript
-    
-    console.log('JavaScript is now running!'); // This message appears in the browser's console (F12 to see it)
-    
-    // Find our button in the HTML using its ID
-    // getElementById looks for an HTML element with the specified ID
+    console.log('JavaScript is now running!');
+
     const button = document.getElementById('demoButton');
-    
-    // Find our message display area in the HTML using its ID
-    // This is where we'll show messages when the button is clicked
     const messageArea = document.getElementById('messageDisplay');
-    
-    // Add a "click event listener" to our button
-    // This tells JavaScript: "When someone clicks this button, do something"
+    const aboutLink = document.getElementById('aboutLink');
+    const aboutBubble = document.getElementById('aboutBubble');
+
+    function hideAboutBubble() {
+        aboutBubble.hidden = true;
+        aboutBubble.classList.remove('is-visible');
+    }
+
+    function showAboutBubble() {
+        aboutBubble.hidden = false;
+        requestAnimationFrame(function() {
+            aboutBubble.classList.add('is-visible');
+        });
+    }
+
+    aboutLink.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        if (aboutBubble.classList.contains('is-visible')) {
+            hideAboutBubble();
+            return;
+        }
+
+        showAboutBubble();
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!aboutBubble.classList.contains('is-visible')) {
+            return;
+        }
+
+        if (!aboutLink.contains(event.target) && !aboutBubble.contains(event.target)) {
+            hideAboutBubble();
+        }
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            hideAboutBubble();
+        }
+    });
+
     button.addEventListener('click', function() {
-        // This function runs every time the button is clicked
-        
-        console.log('Button was clicked!'); // Log to console for debugging
-        
-        // Create a message to display
         const currentTime = new Date().toLocaleTimeString(); // Get current time
         const message = 'Hello! You clicked the button at ' + currentTime;
         
