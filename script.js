@@ -26,6 +26,7 @@ function initFloatingNames() {
     let names = [];
     let width = 0;
     let height = 0;
+    let dpr = 1;
     let animationId = null;
 
     function randomName() {
@@ -34,26 +35,46 @@ function initFloatingNames() {
         return first + ' ' + last;
     }
 
+    function randomSize() {
+        const roll = Math.random();
+        if (roll < 0.18) {
+            return 30 + Math.random() * 20;
+        }
+        if (roll < 0.5) {
+            return 16 + Math.random() * 12;
+        }
+        return 10 + Math.random() * 6;
+    }
+
     function resizeCanvas() {
+        dpr = window.devicePixelRatio || 1;
         width = window.innerWidth;
         height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.textBaseline = 'alphabetic';
     }
 
     function createName() {
         const useRed = Math.random() < 0.2;
+        const speed = 2.2 + Math.random() * 3.2;
+        const direction = Math.random() * Math.PI * 2;
+        const size = randomSize();
+
         return {
             text: randomName(),
             x: Math.random() * width,
             y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 1.4,
-            vy: (Math.random() - 0.5) * 1.4,
-            size: 11 + Math.random() * 10,
-            opacity: 0.15 + Math.random() * 0.35,
+            vx: Math.cos(direction) * speed,
+            vy: Math.sin(direction) * speed,
+            size: size,
+            opacity: size > 28 ? 0.12 + Math.random() * 0.22 : 0.18 + Math.random() * 0.38,
             color: useRed ? '255, 40, 40' : '220, 220, 220',
-            angle: (Math.random() - 0.5) * 0.4,
-            spin: (Math.random() - 0.5) * 0.004
+            angle: (Math.random() - 0.5) * 0.5,
+            spin: (Math.random() - 0.5) * 0.008
         };
     }
 
@@ -64,46 +85,47 @@ function initFloatingNames() {
         }
     }
 
+    function drawName(name) {
+        ctx.save();
+        ctx.translate(name.x, name.y);
+        ctx.rotate(name.angle);
+        ctx.font = name.size + 'px "IBM Plex Mono", "Courier New", monospace';
+        ctx.fillStyle = 'rgba(' + name.color + ', ' + name.opacity + ')';
+        ctx.fillText(name.text, 0, 0);
+        ctx.restore();
+    }
+
+    function updateName(name) {
+        name.x += name.vx;
+        name.y += name.vy;
+        name.angle += name.spin;
+
+        const margin = name.size * 4;
+
+        if (name.x < -margin) {
+            name.x = width + margin * 0.5;
+        } else if (name.x > width + margin) {
+            name.x = -margin * 0.5;
+        }
+
+        if (name.y < -margin) {
+            name.y = height + margin * 0.25;
+        } else if (name.y > height + margin) {
+            name.y = -margin * 0.25;
+        }
+    }
+
     function drawStaticNames() {
         ctx.clearRect(0, 0, width, height);
-        names.forEach(function(name) {
-            ctx.save();
-            ctx.translate(name.x, name.y);
-            ctx.rotate(name.angle);
-            ctx.font = name.size + 'px "IBM Plex Mono", "Courier New", monospace';
-            ctx.fillStyle = 'rgba(' + name.color + ', ' + name.opacity + ')';
-            ctx.fillText(name.text, 0, 0);
-            ctx.restore();
-        });
+        names.forEach(drawName);
     }
 
     function tick() {
         ctx.clearRect(0, 0, width, height);
 
         names.forEach(function(name) {
-            name.x += name.vx;
-            name.y += name.vy;
-            name.angle += name.spin;
-
-            if (name.x < -200) {
-                name.x = width + 100;
-            } else if (name.x > width + 200) {
-                name.x = -100;
-            }
-
-            if (name.y < -40) {
-                name.y = height + 20;
-            } else if (name.y > height + 40) {
-                name.y = -20;
-            }
-
-            ctx.save();
-            ctx.translate(name.x, name.y);
-            ctx.rotate(name.angle);
-            ctx.font = name.size + 'px "IBM Plex Mono", "Courier New", monospace';
-            ctx.fillStyle = 'rgba(' + name.color + ', ' + name.opacity + ')';
-            ctx.fillText(name.text, 0, 0);
-            ctx.restore();
+            updateName(name);
+            drawName(name);
         });
 
         animationId = requestAnimationFrame(tick);

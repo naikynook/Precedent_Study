@@ -68,7 +68,11 @@ body::after {
   opacity: 0.35;
 }
 
-header,
+header {
+  position: relative;
+  z-index: 10;
+}
+
 main {
   position: relative;
   z-index: 2;
@@ -144,7 +148,7 @@ header .right a:hover {
   background-color: rgba(20, 20, 20, 0.98);
   border: 2px solid var(--accent-red);
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.35);
-  z-index: 10;
+  z-index: 100;
   opacity: 0;
   transform: translateY(-6px);
   pointer-events: none;
