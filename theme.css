@@ -233,6 +233,24 @@ main {
   font-weight: 700;
 }
 
+.network-diagram {
+  margin: 0 0 40px;
+  padding: 0;
+  border: 1px solid rgba(255, 0, 0, 0.45);
+  background-color: var(--bg-primary);
+  overflow: visible;
+  line-height: 0;
+}
+
+.network-diagram img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center top;
+}
+
 .section-title {
   display: inline-block;
   font-weight: 700;
@@ -267,7 +285,9 @@ p a:hover {
   color: var(--accent-red);
 }
 
-button {
+button,
+a.cta-button {
+  display: inline-block;
   font-family: var(--font-mono);
   background-color: transparent;
   color: var(--accent-red);
@@ -281,9 +301,11 @@ button {
   margin-bottom: 16px;
   transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
   border-radius: 0;
+  text-decoration: none;
 }
 
-button:hover {
+button:hover,
+a.cta-button:hover {
   background-color: var(--accent-red);
   color: var(--text-primary);
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
