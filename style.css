@@ -1,129 +1,274 @@
-/* Import Google Fonts - this loads the Roboto font family from Google's servers */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
 
-/* Style the entire body of the webpage */
+:root {
+  --bg-primary: #2B2B2B;
+  --bg-secondary: #404040;
+  --surface-concrete: #CCCCCC;
+  --text-primary: #FFFFFF;
+  --text-secondary: #999999;
+  --text-muted: #666666;
+  --accent-red: #FF0000;
+  --outline: #111111;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'Roboto', sans-serif;  /* Set the font to Roboto, with sans-serif as backup */
-  background: linear-gradient(135deg, #ff69b4, #ffff00);  /* Gradient from pink to yellow */
-  color: #111;                        /* Set text color to dark gray (almost black) */
-  margin: 0;                          /* Remove default spacing around the body */
-  padding: 0;                         /* Remove default internal spacing */
-  min-height: 100vh;                  /* Ensure gradient covers full viewport height */
+  font-family: var(--font-mono);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  position: relative;
+  line-height: 1.65;
 }
 
-/* Style the header section at the top of the page */
-header {
-  display: flex;                      /* Use flexbox layout for flexible positioning */
-  justify-content: space-between;     /* Spread items evenly across the header */
-  align-items: center;                /* Center items vertically */
-  padding: 24px 40px;                 /* Add 24px top/bottom, 40px left/right spacing inside */
-  border-bottom: 1px solid #ccc;      /* Add a light gray line at the bottom */
-  font-size: 14px;                    /* Set font size to 14 pixels */
+/* Halftone dot-matrix floor */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+  background-position: 0 0;
 }
 
-/* Style the left section of the header */
-header .left {
-  color: #aaa;                        /* Set text color to light gray */
+/* Grain / CCTV noise overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
 }
 
-/* Style the center section of the header */
-header .center {
-  font-weight: 400;                   /* Set font weight to normal (not bold) */
-  text-align: center;                 /* Center the text horizontally */
-}
-
-/* Style the span element inside the center section */
-header .center span {
-  font-size: 12px;                    /* Make this text smaller (12 pixels) */
-  color: #888;                        /* Set text color to medium gray */
-}
-
-/* Style links in the right section of the header */
-header .right a {
-  color: #000;                        /* Set link color to black */
-  text-decoration: none;              /* Remove the underline from links */
-  font-weight: 400;                   /* Set font weight to normal */
-}
-
-/* Style the main content area */
+header,
 main {
-  max-width: 800px;                   /* Limit the maximum width to 800 pixels */
-  margin: 60px auto;                  /* Add 60px top/bottom margin, center horizontally */
-  padding: 0 20px;                    /* Add 20px left/right padding, no top/bottom */
+  position: relative;
+  z-index: 1;
 }
 
-/* Style the project year/date */
+/* ── Header ── */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--accent-red);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+header .left {
+  color: var(--text-secondary);
+}
+
+header .center {
+  font-weight: 400;
+  text-align: center;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+header .center span {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+header .right a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 400;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+header .right a:hover {
+  color: var(--accent-red);
+  border-color: var(--accent-red);
+}
+
+/* ── Main content ── */
+main {
+  max-width: 800px;
+  margin: 56px auto 80px;
+  padding: 0 24px;
+  border-left: 1px solid rgba(255, 0, 0, 0.25);
+  padding-left: 32px;
+}
+
 .project-meta {
-  font-size: 14px;                    /* Set font size to 14 pixels */
-  color: #999;                        /* Set text color to light gray */
-  margin-bottom: 8px;                 /* Add 8 pixels of space below this element */
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-/* Style the main project title */
+.project-meta::before {
+  content: '[ ';
+  color: var(--accent-red);
+}
+
+.project-meta::after {
+  content: ' ]';
+  color: var(--accent-red);
+}
+
 .project-title {
-  font-size: 24px;                    /* Set font size to 24 pixels (larger) */
-  font-weight: 400;                   /* Set font weight to normal (not bold) */
-  margin-bottom: 4px;                 /* Add 4 pixels of space below this element */
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
 }
 
-/* Style the project subtitle */
 .project-subtitle {
-  font-size: 16px;                    /* Set font size to 16 pixels */
-  color: #999;                        /* Set text color to light gray */
-  margin-bottom: 24px;                /* Add 24 pixels of space below this element */
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  letter-spacing: 0.06em;
 }
 
-/* Style the advisor information */
 .advisor {
-  font-size: 14px;                    /* Set font size to 14 pixels */
-  margin-bottom: 40px;                /* Add 40 pixels of space below this element */
-  color: #333;                        /* Set text color to dark gray */
+  font-size: 13px;
+  margin-bottom: 44px;
+  color: var(--text-secondary);
+  padding: 12px 16px;
+  background-color: rgba(64, 64, 64, 0.6);
+  border: 1px solid #555;
+  border-left: 3px solid var(--accent-red);
+  line-height: 1.6;
 }
 
-/* Style section titles (like "Abstract", "Motivation") */
+.advisor strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* Poster-style callout labels */
 .section-title {
-  font-weight: 700;                   /* Make the text bold */
-  text-transform: uppercase;          /* Convert text to all capital letters */
-  margin-top: 40px;                   /* Add 40 pixels of space above this element */
-  margin-bottom: 12px;                /* Add 12 pixels of space below this element */
-  font-size: 14px;                    /* Set font size to 14 pixels */
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 44px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--accent-red);
+  background-color: var(--surface-concrete);
+  padding: 6px 12px;
+  line-height: 1.4;
 }
 
-/* Style all paragraph elements */
 p {
-  font-size: 16px;                    /* Set font size to 16 pixels */
-  line-height: 1.6;                   /* Set space between lines to 1.6 times the font size */
-  margin-bottom: 24px;                /* Add 24 pixels of space below each paragraph */
-  color: #111;                        /* Set text color to dark gray (almost black) */
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 22px;
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 400;
 }
 
-/* Style for our interactive button */
+p a,
+.advisor a {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-red);
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+p a:hover {
+  color: var(--accent-red);
+}
+
+/* ── Interactive demo ── */
 button {
-  background-color: #111;             /* Set button background to dark gray */
-  color: white;                       /* Set button text color to white */
-  border: none;                       /* Remove the default button border */
-  padding: 12px 24px;                 /* Add 12px top/bottom, 24px left/right spacing inside */
-  font-size: 14px;                    /* Set button text size to 14 pixels */
-  font-weight: 400;                   /* Set font weight to normal */
-  cursor: pointer;                    /* Change mouse cursor to hand when hovering over button */
-  margin-bottom: 20px;                /* Add 20 pixels of space below the button */
-  transition: background-color 0.3s;  /* Smooth color change animation (0.3 seconds) */
-  border-radius: 4px;                 /* Add slightly rounded corners to the button */
+  font-family: var(--font-mono);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--accent-red);
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  border-radius: 0;
 }
 
-/* Change button appearance when user hovers over it */
 button:hover {
-  background-color: #333;             /* Change background to lighter gray on hover */
+  background-color: var(--accent-red);
+  color: var(--text-primary);
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.35);
 }
 
-/* Style for the message display area */
+button:focus-visible {
+  outline: 1px solid var(--accent-red);
+  outline-offset: 3px;
+}
+
 #messageDisplay {
-  font-size: 16px;                    /* Set font size to 16 pixels */
-  line-height: 1.6;                   /* Set space between lines */
-  margin-top: 20px;                   /* Add 20 pixels of space above this element */
-  padding: 16px;                      /* Add 16 pixels of spacing inside the element */
-  border: 1px solid #ccc;             /* Add a light gray border around the element */
-  background-color: #f9f9f9;          /* Set background color to very light gray */
-  border-radius: 4px;                 /* Add slightly rounded corners */
-  min-height: 20px;                   /* Set minimum height so the area is visible even when empty */
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--accent-red);
+  background-color: rgba(17, 17, 17, 0.7);
+  min-height: 24px;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+/* Corner brackets — detection bounding box */
+#messageDisplay:not(:empty)::before,
+#messageDisplay:not(:empty)::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--accent-red);
+  border-style: solid;
+}
+
+#messageDisplay:not(:empty)::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+#messageDisplay:not(:empty)::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+/* ── Selection ── */
+::selection {
+  background-color: var(--accent-red);
+  color: var(--text-primary);
 }
