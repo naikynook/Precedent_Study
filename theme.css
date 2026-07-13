@@ -233,7 +233,8 @@ main {
   font-weight: 700;
 }
 
-.network-diagram {
+.network-diagram,
+.section-image {
   margin: 0 0 40px;
   padding: 0;
   border: 1px solid rgba(255, 0, 0, 0.45);
@@ -242,7 +243,8 @@ main {
   line-height: 0;
 }
 
-.network-diagram img {
+.network-diagram img,
+.section-image img {
   display: block;
   width: 100%;
   max-width: 100%;
