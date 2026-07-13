@@ -236,9 +236,12 @@ main {
 .network-diagram,
 .section-image {
   margin: 0 0 40px;
-  padding: 0;
-  border: 1px solid rgba(255, 0, 0, 0.45);
+  padding: 6px;
+  border: 2px solid var(--accent-red);
   background-color: var(--bg-primary);
+  box-shadow:
+    0 0 0 1px rgba(255, 0, 0, 0.35),
+    0 0 20px rgba(255, 0, 0, 0.12);
   overflow: visible;
   line-height: 0;
 }
@@ -251,6 +254,7 @@ main {
   height: auto;
   object-fit: contain;
   object-position: center top;
+  border: 1px solid rgba(255, 0, 0, 0.5);
 }
 
 .section-title {
